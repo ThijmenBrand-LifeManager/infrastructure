@@ -1,0 +1,49 @@
+environment: Development
+
+generic:
+  logging:
+    logLevel:
+      default: Information
+      microsoftAspNetCore: Warning
+
+  database:
+    host: lfm-dev-pgsql-db.postgres.database.azure.com
+    port: 5432
+
+  servicebus:
+    host: sb://lfm-dev-servicebus.servicebus.windows.net/
+
+apps:
+  authorization:
+    openapi:
+      showDocument: true
+      url: "https://localhost:7146"
+
+    database:
+      name: lfm-authorization
+      username: lfm_authorization_service
+      password:
+
+    servicebus:
+      queue: lfm-authorization-queue
+      connectionstring: ""
+
+    jwt:
+      issuer: "https://lifemanager.local"
+      secret: ""
+      audience: "LifeManagerUsers"
+      expirationInMinutes: 60
+
+  workstream:
+    openapi:
+      showDocument: true
+      url: "https://localhost:7147"
+
+    database:
+      name: lfm-workstream
+      username: lfm_workstream_service
+      password:
+
+    servicebus:
+      queue: lfm-workstream-queue
+      connectionstring: ""

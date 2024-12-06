@@ -1,0 +1,57 @@
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: lfm-authorization-endpoint
+  labels:
+    app: lfm-authorization-endpoint
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lfm-authorization-endpoint
+  template:
+    metadata:
+      labels:
+        app: lfm-authorization-endpoint
+    spec:
+      containers:
+        - name: lfm-authorization-endpoint
+          image: "ghcr.io/thijmenbrand-lifemanager/lfm.authorization/thijmenbrand-lifemanager-lfm-authorization-endpoint:dev"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "{{ .Values.environment }}"
+            - name: Logging__LogLevel__Default
+              value: { { .Values.generic.logging.logLevel.default } }
+            - name: Logging__LogLevel__Microsoft.AspNetCore
+              value:
+                { { .Values.generic.logging.logLevel.microsoftAspNetCore } }
+            - name: Database__Host
+              value: { { .Values.generic.database.host } }
+            - name: Database__Port
+              value: { { .Values.generic.database.port } }
+            - name: Database__Database
+              value: { { .Values.apps.authorization.database.name } }
+            - name: Database__Username
+              value: { { .Values.apps.authorization.database.username } }
+            - name: Database__Password
+              value: { { .Values.apps.authorization.database.password } }
+            - name: ServiceBus__Host
+              value: { { .Values.generic.servicebus.host } }
+            - name: ServiceBus__ConnectionString
+              value:
+                { { .Values.apps.authorization.servicebus.connectionstring } }
+            - name: ServiceBus__QueueName
+              value: { { .Values.apps.authorization.servicebus.queue } }
+            - name: ServiceBus__WorkstreamQueueName
+              value: { { .Values.apps.workstream.servicebus.queue } }
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
