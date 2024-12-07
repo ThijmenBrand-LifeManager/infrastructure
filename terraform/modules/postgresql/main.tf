@@ -43,7 +43,7 @@ resource "terraform_data" "roles_setup" {
   provisioner "local-exec" {
     command = <<EOT
       export PGPASSWORD=${var.administrator_password}
-      psql -h ${azurerm_postgresql_flexible_server.database.name}.postgres.database.azure.com -p 5432 -U psqladmin -d postgres -f ./resources/db_init.sql
+      psql -h ${azurerm_postgresql_flexible_server.database.name}.postgres.database.azure.com -p 5432 -U ${var.administrator_username} -d postgres -f ./resources/db_init.sql
     EOT
   }
 }
