@@ -14,7 +14,7 @@ resource "azurerm_user_assigned_identity" "authorization_identity" {
 }
 
 resource "azurerm_role_assignment" "authorization_identity_servicebus_access" {
-  scope                = azurerm_servicebus_namespace.default.id
+  scope                = azurerm_servicebus_namespace.azure_servicebus.id
   role_definition_name = "Azure Service Bus Data Owner"
   principal_id         = azurerm_user_assigned_identity.authorization_identity.principal_id
 }
@@ -26,7 +26,7 @@ resource "azurerm_user_assigned_identity" "workstream_identity" {
 }
 
 resource "azurerm_role_assignment" "workstream_identity_servicebus_access" {
-  scope                = azurerm_servicebus_namespace.default.id
+  scope                = azurerm_servicebus_namespace.azure_servicebus.id
   role_definition_name = "Azure Service Bus Data Owner"
   principal_id         = azurerm_user_assigned_identity.workstream_identity.principal_id
 }

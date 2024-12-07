@@ -13,6 +13,11 @@ variable location {
   description = "The location/region where the postgresql database server will be created"
 }
 
+variable tags {
+  type        = map(string)
+  description = "A mapping of tags to assign to the postgresql database server"
+}
+
 variable postgres_version {
   type        = string
   description = "The version of the postgresql database server"

@@ -2,7 +2,7 @@ data "http" "myip" {
   url = "https://ipv4.icanhazip.com"
 }
 
-resource "azurerm_postgresql_flexible_server" "database_server" {
+resource "azurerm_postgresql_flexible_server" "database" {
   name                          = var.postgres_server_name
   resource_group_name           = var.resource_group_name
   location                      = var.location

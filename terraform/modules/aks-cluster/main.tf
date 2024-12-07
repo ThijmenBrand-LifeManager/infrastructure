@@ -1,4 +1,4 @@
-resource "azurerm_kubernetes_cluster" "k8s" {
+resource "azurerm_kubernetes_cluster" "aks" {
   name                = var.aks_name
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -10,7 +10,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vm_size    = "Standard_B2s"
   }
 
-  azure_policy_enabled     = true
   oidc_issuer_enabled      = true
   workload_identity_enable = true
 
