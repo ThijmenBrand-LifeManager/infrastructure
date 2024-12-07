@@ -10,7 +10,7 @@ module "postgres-database" {
   postgres_server_name   = var.postgres_server_name
   resource_group_name    = module.resource-group.name
   location               = module.resource-group.location
-  version                = var.postgres_version
+  postgres_version       = var.postgres_version
   administrator_username = var.administrator_username
   administrator_password = var.administrator_password
 }
