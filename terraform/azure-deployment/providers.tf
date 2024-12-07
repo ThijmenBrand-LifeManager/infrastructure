@@ -38,7 +38,3 @@ provider "azapi" {
 provider "azuread" {}
 
 data "azurerm_client_config" "current" {}
-
-data "azuread_user" "azure_config" {
-  user_principal_name = "thijmen_ik.nu#EXT#@thijmenik.onmicrosoft.com"
-}
