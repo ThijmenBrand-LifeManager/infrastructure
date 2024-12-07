@@ -38,7 +38,6 @@ resource "terraform_data" "roles_setup" {
     azurerm_postgresql_flexible_server.database,
     azurerm_postgresql_flexible_server_firewall_rule.database_firewall_client,
     azurerm_postgresql_flexible_server_firewall_rule.database_firewall_all,
-    azurerm_postgresql_flexible_server_active_directory_administrator.database_ad_admin
   ]
 
   provisioner "local-exec" {
