@@ -13,7 +13,7 @@ variable location {
   description = "The location/region where the postgresql database server will be created"
 }
 
-variable version {
+variable postgres_version {
   type        = string
   description = "The version of the postgresql database server"
   default     = "16"
