@@ -13,7 +13,7 @@ variable "location" {
 variable "tags" {
   description = "A mapping of tags to assign to the resources."
   type        = map(string)
-  default     = {
+  default = {
     environment = "dev"
     owner       = "ThijmenBrand"
     application = "lifemanager"
