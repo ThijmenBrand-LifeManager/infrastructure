@@ -1,17 +1,15 @@
-resource "azurerm_servicebus_namespace" "default" {
-  name                  = local.servicebus_name
-  resource_group_name   = azurerm_resource_group.resourcegroup.name
-  location              = azurerm_resource_group.resourcegroup.location
+resource "azurerm_servicebus_namespace" "azure_servicebus" {
+  name                  = var.servicebus_namespace_name
+  resource_group_name   = var.resource_group_name
+  location              = var.location
   sku                   = "Standard"
 
-  tags = {
-    source = "terraform"
-  }
+  tags = var.tags
 }
 
 resource "azurerm_user_assigned_identity" "authorization_identity" {
-  location = azurerm_resource_group.resourcegroup.location
-  resource_group_name = azurerm_resource_group.resourcegroup.name
+  location = var.location
+  resource_group_name = var.resource_group_name
   name = "lfm-authorization-identity"
 }
 
@@ -22,8 +20,8 @@ resource "azurerm_role_assignment" "authorization_identity_servicebus_access" {
 }
 
 resource "azurerm_user_assigned_identity" "workstream_identity" {
-  location = azurerm_resource_group.resourcegroup.location
-  resource_group_name = azurerm_resource_group.resourcegroup.name
+  location = var,location
+  resource_group_name = var,resource_group_name
   name = "lfm-workstream-identity"
 }
 
