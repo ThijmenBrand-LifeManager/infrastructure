@@ -1,4 +1,4 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: lfm-authorization-endpoint
@@ -14,9 +14,11 @@ spec:
       labels:
         app: lfm-authorization-endpoint
     spec:
+      imagePullSecrets:
+        - name: ghcr-pullsec
       containers:
         - name: lfm-authorization-endpoint
-          image: "ghcr.io/thijmenbrand-lifemanager/lfm.authorization/thijmenbrand-lifemanager-lfm-authorization-endpoint:dev"
+          image: ghcr.io/thijmenbrand-lifemanager/lfm.authorization/thijmenbrand-lifemanager-lfm-authorization-endpoint:dev
           ports:
             - name: http
               containerPort: 80
@@ -25,33 +27,24 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: "{{ .Values.environment }}"
             - name: Logging__LogLevel__Default
-              value: { { .Values.generic.logging.logLevel.default } }
+              value: "{{ .Values.generic.logging.logLevel.default }}"
             - name: Logging__LogLevel__Microsoft.AspNetCore
-              value:
-                { { .Values.generic.logging.logLevel.microsoftAspNetCore } }
+              value: "{{ .Values.generic.logging.logLevel.microsoftAspNetCore }}"
             - name: Database__Host
-              value: { { .Values.generic.database.host } }
+              value: "{{ .Values.generic.database.host }}"
             - name: Database__Port
-              value: { { .Values.generic.database.port } }
+              value: "{{ .Values.generic.database.port }}"
             - name: Database__Database
-              value: { { .Values.apps.authorization.database.name } }
+              value: "{{ .Values.apps.authorization.database.name }}"
             - name: Database__Username
-              value: { { .Values.apps.authorization.database.username } }
+              value: "{{ .Values.apps.authorization.database.username }}"
             - name: Database__Password
-              value: { { .Values.apps.authorization.database.password } }
+              value: "{{ .Values.apps.authorization.database.password }}"
             - name: ServiceBus__Host
-              value: { { .Values.generic.servicebus.host } }
+              value: "{{ .Values.generic.servicebus.host }}"
             - name: ServiceBus__ConnectionString
-              value:
-                { { .Values.apps.authorization.servicebus.connectionstring } }
+              value: "{{ .Values.apps.authorization.servicebus.connectionstring }}"
             - name: ServiceBus__QueueName
-              value: { { .Values.apps.authorization.servicebus.queue } }
+              value: "{{ .Values.apps.authorization.servicebus.queue }}"
             - name: ServiceBus__WorkstreamQueueName
-              value: { { .Values.apps.workstream.servicebus.queue } }
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
+              value: "{{ .Values.apps.workstream.servicebus.queue }}"

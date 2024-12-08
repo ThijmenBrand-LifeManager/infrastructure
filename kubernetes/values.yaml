@@ -26,11 +26,11 @@ apps:
 
     servicebus:
       queue: lfm-authorization-queue
-      connectionstring: ""
+      connectionstring:
 
     jwt:
       issuer: "https://lifemanager.local"
-      secret: ""
+      secret:
       audience: "LifeManagerUsers"
       expirationInMinutes: 60
 
@@ -46,4 +46,4 @@ apps:
 
     servicebus:
       queue: lfm-workstream-queue
-      connectionstring: ""
+      connectionstring:

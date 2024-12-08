@@ -1,9 +1,7 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: lfm-authorization-api
-  labels:
-    app: lfm-authorization-api
 spec:
   replicas: 1
   selector:
@@ -14,77 +12,156 @@ spec:
       labels:
         app: lfm-authorization-api
     spec:
+      imagePullSecrets:
+        - name: ghcr-pullsec
       containers:
         - name: lfm-authorization-api
-          image: "ghcr.io/thijmenbrand-lifemanager/lfm.authorization/thijmenbrand-lifemanager-lfm-authorization-api:dev"
+          image: ghcr.io/thijmenbrand-lifemanager/lfm.authorization/thijmenbrand-lifemanager-lfm-authorization-api:dev
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
+            - containerPort: 80
           env:
-              - name: ASPNETCORE_ENVIRONMENT
-                value: "{{ .Values.environment }}"
-              - name: Logging__LogLevel__Default
-                value: {{ .Values.generic.logging.logLevel.default }}
-              - name: Logging__LogLevel__Microsoft.AspNetCore
-                value: {{ .Values.generic.logging.logLevel.microsoftAspNetCore }}
-              - name: OpenApi__ShowDocument
-                value: {{ .Values.apps.authorization.openapi.showDocument }}
-              - name: OpenApi__Url
-                value: {{ .Values.apps.authorization.openapi.url }}
-              - name: Database__Host
-                value: {{ .Values.generic.database.host }}
-              - name: Database__Port
-                value: {{ .Values.generic.database.port }}
-              - name: Database__Database
-                value: {{ .Values.apps.authorization.database.name }}
-              - name: Database__Username
-                value: {{ .Values.apps.authorization.database.username }}
-              - name: Database__Password
-                value: {{ .Values.apps.authorization.database.password }}
-              - name: AuthorizationDatabase__Host
-                value: {{ .Values.generic.database.host }}
-              - name: AuthorizationDatabase__Port
-                value: {{ .Values.generic.database.port }}
-              - name: AuthorizationDatabase__Database
-                value: {{ .Values.apps.authorization.database.name }}
-              - name: AuthorizationDatabase__Username
-                value: {{ .Values.apps.authorization.database.username }}
-              - name: AuthorizationDatabase__Password
-                value: {{ .Values.apps.authorization.database.password }}
-              - name: Jwt__Issuer
-                value: {{ .Values.apps.authorization.jwt.issuer }}
-              - name: Jwt__Secret
-                value: {{ .Values.apps.authorization.jwt.secret }}
-              - name: Jwt__Audience
-                value: {{ .Values.apps.authorization.jwt.audience }}
-              - name: Jwt__ExpirationInMinutes
-                value: {{ .Values.apps.authorization.jwt.expirationInMinutes }}
-              - name: ServiceBus__Host
-                value: {{ .Values.generic.servicebus.host }}
-              - name: ServiceBus__ConnectionString
-                value: {{ .Values.apps.authorization.servicebus.connectionstring }}
-              - name: ServiceBus__QueueName
-                value: {{ .Values.apps.authorization.servicebus.queue }}
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "{{ .Values.environment }}"
+            - name: Logging__LogLevel__Default
+              value: "{{ .Values.generic.logging.logLevel.default }}"
+            - name: Logging__LogLevel__Microsoft.AspNetCore
+              value: "{{ .Values.generic.logging.logLevel.microsoftAspNetCore }}"
+            - name: OpenApi__ShowDocument
+              value: "{{ .Values.apps.authorization.openapi.showDocument }}"
+            - name: OpenApi__Url
+              value: "{{ .Values.apps.authorization.openapi.url }}"
+            - name: Database__Host
+              value: "{{ .Values.generic.database.host }}"
+            - name: Database__Port
+              value: "{{ .Values.generic.database.port }}"
+            - name: Database__Database
+              value: "{{ .Values.apps.authorization.database.name }}"
+            - name: Database__Username
+              value: "{{ .Values.apps.authorization.database.username }}"
+            - name: Database__Password
+              value: "{{ .Values.apps.authorization.database.password }}"
+            - name: AuthorizationDatabase__Host
+              value: "{{ .Values.generic.database.host }}"
+            - name: AuthorizationDatabase__Port
+              value: "{{ .Values.generic.database.port }}"
+            - name: AuthorizationDatabase__Database
+              value: "{{ .Values.apps.authorization.database.name }}"
+            - name: AuthorizationDatabase__Username
+              value: "{{ .Values.apps.authorization.database.username }}"
+            - name: AuthorizationDatabase__Password
+              value: "{{ .Values.apps.authorization.database.password }}"
+            - name: Jwt__Issuer
+              value: "{{ .Values.apps.authorization.jwt.issuer }}"
+            - name: Jwt__Secret
+              value: "{{ .Values.apps.authorization.jwt.secret }}"
+            - name: Jwt__Audience
+              value: "{{ .Values.apps.authorization.jwt.audience }}"
+            - name: Jwt__ExpirationInMinutes
+              value: "{{ .Values.apps.authorization.jwt.expirationInMinutes }}"
+            - name: ServiceBus__Host
+              value: "{{ .Values.generic.servicebus.host }}"
+            - name: ServiceBus__ConnectionString
+              value: "{{ .Values.apps.authorization.servicebus.connectionstring }}"
+            - name: ServiceBus__QueueName
+              value: "{{ .Values.apps.authorization.servicebus.queue }}"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: lfm-authorization-api
-  labels:
-    app: lfm-authorization-api
 spec:
-    type: ClusterIP
-    ports:
-        - port: 80
-        targetPort: 80
-        protocol: TCP
-    selector:
-        app: lfm-authorization-api
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector:
+    app: lfm-authorization-api
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: lfm-authorization-api
+#   labels:
+#     app: lfm-authorization-api
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: lfm-authorization-api
+#   template:
+#     metadata:
+#       labels:
+#         app: lfm-authorization-api
+#     spec:
+#       containers:
+#         - name: lfm-authorization-api
+#           image: "ghcr.io/thijmenbrand-lifemanager/lfm.authorization/thijmenbrand-lifemanager-lfm-authorization-api:dev"
+#           ports:
+#             - name: http
+#               containerPort: 80
+#               protocol: TCP
+#           env:
+#               - name: ASPNETCORE_ENVIRONMENT
+#                 value: ""{{ .Values.environment }}""
+#               - name: Logging__LogLevel__Default
+#                 value: "{{ .Values.generic.logging.logLevel.default }}"
+#               - name: Logging__LogLevel__Microsoft.AspNetCore
+#                 value: "{{ .Values.generic.logging.logLevel.microsoftAspNetCore }}"
+#               - name: OpenApi__ShowDocument
+#                 value: "{{ .Values.apps.authorization.openapi.showDocument }}"
+#               - name: OpenApi__Url
+#                 value: "{{ .Values.apps.authorization.openapi.url }}"
+#               - name: Database__Host
+#                 value: "{{ .Values.generic.database.host }}"
+#               - name: Database__Port
+#                 value: "{{ .Values.generic.database.port }}"
+#               - name: Database__Database
+#                 value: "{{ .Values.apps.authorization.database.name }}"
+#               - name: Database__Username
+#                 value: "{{ .Values.apps.authorization.database.username }}"
+#               - name: Database__Password
+#                 value: "{{ .Values.apps.authorization.database.password }}"
+#               - name: AuthorizationDatabase__Host
+#                 value: "{{ .Values.generic.database.host }}"
+#               - name: AuthorizationDatabase__Port
+#                 value: "{{ .Values.generic.database.port }}"
+#               - name: AuthorizationDatabase__Database
+#                 value: "{{ .Values.apps.authorization.database.name }}"
+#               - name: AuthorizationDatabase__Username
+#                 value: "{{ .Values.apps.authorization.database.username }}"
+#               - name: AuthorizationDatabase__Password
+#                 value: "{{ .Values.apps.authorization.database.password }}"
+#               - name: Jwt__Issuer
+#                 value: "{{ .Values.apps.authorization.jwt.issuer }}"
+#               - name: Jwt__Secret
+#                 value: "{{ .Values.apps.authorization.jwt.secret }}"
+#               - name: Jwt__Audience
+#                 value: "{{ .Values.apps.authorization.jwt.audience }}"
+#               - name: Jwt__ExpirationInMinutes
+#                 value: "{{ .Values.apps.authorization.jwt.expirationInMinutes }}"
+#               - name: ServiceBus__Host
+#                 value: "{{ .Values.generic.servicebus.host }}"
+#               - name: ServiceBus__ConnectionString
+#                 value: "{{ .Values.apps.authorization.servicebus.connectionstring }}"
+#               - name: ServiceBus__QueueName
+#                 value: "{{ .Values.apps.authorization.servicebus.queue }}"
+#           resources:
+#             limits:
+#               memory: "128Mi"
+#               cpu: "500m"
+#             requests:
+#               memory: "64Mi"
+#               cpu: "250m"
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: lfm-authorization-api
+#   labels:
+#     app: lfm-authorization-api
+# spec:
+#     type: ClusterIP
+#     ports:
+#         - port: 80
+#         targetPort: 80
+#         protocol: TCP
+#     selector:
+#         app: lfm-authorization-api
