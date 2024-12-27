@@ -25,3 +25,42 @@ resource "azurerm_kubernetes_cluster" "aks" {
     environment = "dev"
   }
 }
+
+data "azurerm_kubernetes_cluster" "credentials" {
+  name                = azurerm_kubernetes_cluster.aks.name
+  resource_group_name = azurerm_kubernetes_cluster.aks.resource_group_name
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = data.azurerm_kubernetes_cluster.credentials.kube_config.0.host
+    client_certificate     = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.client_certificate)
+    client_key             = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.client_key)
+    cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.credentials.kube_config.0.cluster_ca_certificate)
+  }
+}
+
+resource "helm_release" "nginx" {
+  name       = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+
+  set {
+    name  = "controller.service.annotations.service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path'"
+    value = "/healthz"
+  }
+
+  set {
+    name  = "controller.service.externalTrafficPolicy"
+    value = "Local"
+  }
+}
+
+resource "helm_release" "prometheus" {
+  name       = "prometheus"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+  values = [
+    file("resources/prometheus.yaml")
+  ]
+}

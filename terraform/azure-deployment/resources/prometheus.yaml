@@ -1,0 +1,11 @@
+prometheus:
+  enabled: true
+  prometheusSpec:
+    additionalScrapeConfigs: |
+      - job_name: prometheus
+        static_configs:
+          - targets:
+            - localhost:9090
+      - job_name: lifemanager
+        static_configs: 
+          - targets: ["lfm-authorization-api:80"]

@@ -32,10 +32,10 @@ terraform {
     }
   }
 
-  backend "azurerm" {
-    key      = "terraform.tfstate"
-    use_oidc = true
-  }
+  # backend "azurerm" {
+  #   key      = "terraform.tfstate"
+  #   use_oidc = true
+  # }
 }
 
 provider "azurerm" {
