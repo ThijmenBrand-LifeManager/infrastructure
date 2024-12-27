@@ -17,6 +17,7 @@ spec:
       containers:
         - name: lfm-workstream-api
           image: ghcr.io/thijmenbrand-lifemanager/lfm.workstream/thijmenbrand-lifemanager-lfm-workstream-api:dev
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
@@ -27,9 +28,9 @@ spec:
             - name: Logging__LogLevel__Microsoft.AspNetCore
               value: "{{ .Values.generic.logging.logLevel.microsoftAspNetCore }}"
             - name: OpenApi__ShowDocument
-              value: "{{ .Values.apps.authorization.openapi.showDocument }}"
+              value: "{{ .Values.apps.workstream.openapi.showDocument }}"
             - name: OpenApi__Url
-              value: "{{ .Values.apps.authorization.openapi.url }}"
+              value: "{{ .Values.apps.workstream.openapi.url }}"
             - name: Database__Host
               value: "{{ .Values.generic.database.host }}"
             - name: Database__Port
@@ -58,8 +59,6 @@ spec:
               value: "{{ .Values.apps.authorization.jwt.audience }}"
             - name: Jwt__ExpirationInMinutes
               value: "{{ .Values.apps.authorization.jwt.expirationInMinutes }}"
-            - name: ServiceBus__Host
-              value: "{{ .Values.generic.servicebus.host }}"
             - name: ServiceBus__ConnectionString
               value: "{{ .Values.apps.workstream.servicebus.connectionstring }}"
             - name: ServiceBus__QueueName

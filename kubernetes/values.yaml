@@ -10,14 +10,11 @@ generic:
     host: lfm-dev-pgsql-db.postgres.database.azure.com
     port: 5432
 
-  servicebus:
-    host: sb://lfm-dev-servicebus.servicebus.windows.net/
-
 apps:
   authorization:
     openapi:
       showDocument: true
-      url: "https://localhost:7146"
+      url: "http://135.236.221.168/authorization"
 
     database:
       name: lfm-authorization
@@ -37,7 +34,7 @@ apps:
   workstream:
     openapi:
       showDocument: true
-      url: "https://localhost:7147"
+      url: "http://135.236.221.168/workstream"
 
     database:
       name: lfm-workstream

@@ -18,6 +18,18 @@ terraform {
       source  = "hashicorp/azuread"
       version = "2.30.0"
     }
+    helm = {
+      source = "hashicorp/helm"
+      version = "2.9.0"
+    }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "2.35.1"
+    }
+    kubectl = {
+      source = "gavinbunney/kubectl"
+      version = "1.18.0"
+    }
   }
 
   backend "azurerm" {

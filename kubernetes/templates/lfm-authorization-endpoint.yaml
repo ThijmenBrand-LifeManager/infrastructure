@@ -19,6 +19,7 @@ spec:
       containers:
         - name: lfm-authorization-endpoint
           image: ghcr.io/thijmenbrand-lifemanager/lfm.authorization/thijmenbrand-lifemanager-lfm-authorization-endpoint:dev
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80
@@ -40,8 +41,6 @@ spec:
               value: "{{ .Values.apps.authorization.database.username }}"
             - name: Database__Password
               value: "{{ .Values.apps.authorization.database.password }}"
-            - name: ServiceBus__Host
-              value: "{{ .Values.generic.servicebus.host }}"
             - name: ServiceBus__ConnectionString
               value: "{{ .Values.apps.authorization.servicebus.connectionstring }}"
             - name: ServiceBus__QueueName
