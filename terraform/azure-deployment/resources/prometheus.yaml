@@ -9,3 +9,4 @@ prometheus:
       - job_name: lifemanager
         static_configs: 
           - targets: ["lfm-authorization-api:80"]
+          - targets: ["lfm-workstream-api:80"]
